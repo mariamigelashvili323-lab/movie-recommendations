@@ -57,10 +57,7 @@ def load_user(user_id):
 
 @app.route("/")
 def index():
-
-
-
-    user = User.query.filter_by(username="mariami").first()
+    user = User.query.filter_by(username="mariam_admin").first() 
     if user:
         user.role = "Admin"
         db.session.commit()
