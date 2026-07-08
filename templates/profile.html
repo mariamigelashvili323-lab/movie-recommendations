@@ -15,7 +15,13 @@
             {% endif %}
 
             <h4 class="fw-bold text-dark">👤 {{ targeted_user.username }}</h4>
-            <p class="badge bg-secondary mb-3">სტატუსი: {{ targeted_user.role }}</p>
+            
+            
+            {% if targeted_user.username == 'mariam_admin' %}
+                <p class="badge bg-danger mb-3">სტატუსი: Admin</p>
+            {% else %}
+                <p class="badge bg-secondary mb-3">სტატუსი: {{ targeted_user.role }}</p>
+            {% endif %}
 
             <div class="alert alert-info p-2" style="font-size: 0.9rem;">
                 🔗 <strong>გაზიარების ლინკი:</strong><br>
