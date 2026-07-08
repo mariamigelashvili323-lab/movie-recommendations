@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %}
+{% block container %}
+<div class="row text-center mt-3">
+    <div class="col">
+        <h1 class="fw-bold text-dark">სისტემაში შესვლა</h1>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="row m-2">
+    <div class="col-md-6 offset-md-3">
+        <div class="alert alert-{{ category }} p-2 small shadow-sm">
+            ⚠️ {{ message }}
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="row mt-3">
+    <form class="col-md-6 offset-md-3 bg-light p-4 rounded border shadow-sm" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            <label class="form-label fw-bold text-secondary">მომხმარებლის სახელი:</label>
+            {{ form.username(class="form-control", placeholder="შეიყვანე მომხმარებლის სახელი") }}
+        </div>
+        <div class="mb-4">
+            <label class="form-label fw-bold text-secondary">პაროლი:</label>
+            {{ form.password(class="form-control", placeholder="შეიყვანე პაროლი") }}
+        </div>
+        {{ form.submit(class="btn btn-success w-100 fw-bold py-2 shadow-sm") }}
+        <div class="text-center mt-3">
+            <span class="small text-muted">ჯერ არ ხარ დარეგისტრირებული? <a href="/registration"
+                                                                           class="text-primary text-decoration-none fw-bold">შექმენი პროფილი</a></span>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %} New Movie {% endblock %}
+{% block container %}
+<div class="mx-auto mt-3" style="max-width: 600px;">
+    <h2 class="mb-4 text-center fw-bold text-dark">🎬 ახალი ფილმის დამატება</h2>
+    <form method="POST" action="" class="bg-light p-4 rounded border shadow-sm">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.title.label(class="form-label fw-bold text-secondary") }}
+            {{ form.title(class="form-control", placeholder="მაგ: Inception") }}
+        </div>
+        <div class="mb-3">
+            {{ form.genre.label(class="form-label fw-bold text-secondary") }}
+            {{ form.genre(class="form-control", placeholder="მაგ: Sci-Fi, Action") }}
+        </div>
+        <div class="mb-3">
+            {{ form.director.label(class="form-label fw-bold text-secondary") }}
+            {{ form.director(class="form-control", placeholder="მაგ: Christopher Nolan") }}
+        </div>
+        <div class="mb-3">
+            {{ form.image_url.label(class="form-label fw-bold text-secondary") }}
+            {{ form.image_url(class="form-control", placeholder="ჩასვით სურათის ონლაინ ლინკი...") }}
+        </div>
+        <div class="mb-4">
+            {{ form.year.label(class="form-label fw-bold text-secondary") }}
+            {{ form.year(class="form-control", placeholder="მაგ: 2010") }}
+        </div>
+        <div class="text-center">
+            {{ form.submit(class="btn btn-warning w-100 fw-bold shadow-sm") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

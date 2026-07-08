@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %} Home Page {% endblock %}
+
+{% block container %}
+
+<div class="row text-center mb-4">
+    <div class="col">
+        <h2 class="fw-bold text-dark my-2">Share Your Recommendations with your Loved Ones!</h2>
+    </div>
+</div>
+
+<div id="carouselExample" class="carousel slide shadow border rounded-3 overflow-hidden mx-auto bg-white"
+     style="max-width: 900px;">
+    <div class="carousel-inner">
+
+        <div class="carousel-item active">
+            <img src="/static/images/inside out.jpg" class="d-block mx-auto dynamic-carousel-img" alt="Inside Out">
+        </div>
+
+        <div class="carousel-item">
+            <img src="/static/images/michael.jpg" class="d-block mx-auto dynamic-carousel-img" alt="Michael">
+        </div>
+
+        <div class="carousel-item">
+            <img src="/static/images/your fault.jpg" class="d-block mx-auto dynamic-carousel-img" alt="Your Fault">
+        </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<style>
+    .dynamic-carousel-img {
+        height: 480px;
+        max-width: 100%;
+        object-fit: contain;
+    }
+
+
+    @media (max-width: 768px) {
+        .dynamic-carousel-img {
+            height: 300px;
+        }
+    }
+</style>
+
+{% endblock %}

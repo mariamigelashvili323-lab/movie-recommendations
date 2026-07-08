@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %} Main Page {% endblock %}
+
+{% block container %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }} mt-2 shadow-sm">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="row mt-3">
+    {% for movie in movies %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm border-0 bg-light">
+            {% if movie.image_url %}
+            <img src="{{ movie.image_url }}" class="card-img-top rounded-top" style="height: 350px; object-fit: cover;">
+            {% endif %}
+
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title fw-bold text-dark">{{ movie.title }}</h5>
+                <p class="card-text mb-1 text-muted"><strong>ჟანრი:</strong> {{ movie.genre }}</p>
+                <p class="card-text mb-1 text-muted"><strong>რეჟისორი:</strong> {{ movie.director }}</p>
+                <p class="card-text text-muted"><strong>წელი:</strong> {{ movie.year }}</p>
+
+                <div class="mt-auto">
+                    {% if current_user.is_authenticated %}
+                    <button type="button" class="btn btn-outline-primary btn-sm w-100 mt-2 fw-bold"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal-{{ movie.id }}">
+                        ➕ პროფილზე დამატება
+                    </button>
+                    {% endif %}
+
+                    {% if current_user.is_authenticated and current_user.role == 'Admin' %}
+                    <form action="{{ url_for('delete_movie', movie_id=movie.id) }}" method="POST" class="d-block w-100"
+                          onsubmit="return confirm('ნამდვილად გსურს ფილმის (\'{{ movie.title }}\') სამუდამოდ წაშლა?');">
+                        <button type="submit" class="btn btn-sm btn-danger w-100 mt-2 fw-bold">🗑️ ფილმის წაშლა</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if current_user.is_authenticated %}
+    <div class="modal fade" id="modal-{{ movie.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="{{ url_for('add_to_profile', movie_id=movie.id) }}" method="POST">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title fw-bold">🎬 რეკომენდაცია: {{ movie.title }}</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label class="form-label fw-bold text-secondary">დაამატე პირადი კომენტარი:</label>
+                        <textarea name="comment" class="form-control" rows="3"
+                                  placeholder="რა მოგეწონა ამ ფილმში? რატომ ურჩევ სხვებს..." required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">გაუქმება</button>
+                        <button type="submit" class="btn btn-success btn-sm fw-bold">პროფილზე შენახვა</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% endfor %}
+</div>
+{% endblock %}
