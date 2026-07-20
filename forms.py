@@ -18,7 +18,7 @@ class RegisterForm(FlaskForm):
     country = SelectField(choices=choices)
     submit = SubmitField("რეგისტრაცია")
 
-    # 👇 აი, ეს Custom Validator ჩაამატე ბოლოში:
+
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
