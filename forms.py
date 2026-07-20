@@ -1,24 +1,31 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, RadioField, SelectField, SubmitField, IntegerField
-from wtforms.validators import DataRequired, Length, EqualTo, Email
 from flask_wtf.file import FileField, FileAllowed
 from choices import choices
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from models import User
 
 
 class RegisterForm(FlaskForm):
-
     username = StringField("შეიყვანე მომხმარებლის სახელი", validators=[DataRequired(), Length(min=3, max=50)])
     email = StringField("შეიყვანე იმეილი", validators=[DataRequired(), Email()])
-    password = PasswordField("შეიყვანე პაროლი", validators=[DataRequired(), Length(min=8, max=20,
-                                                                                   message="PASSWORD MUST INCLUDE MINIMUM-8 SYMBOLS AND MAXIMUM-20")])
+    password = PasswordField("შეიყვანე პაროლი", validators=[
+        DataRequired(),
+        Length(min=8, max=20, message="PASSWORD MUST INCLUDE MINIMUM-8 SYMBOLS AND MAXIMUM-20")
+    ])
     repeat_password = PasswordField("გაიმეორე პაროლი", validators=[DataRequired(), EqualTo("password")])
     gender = RadioField("აირჩიე სქესი", choices=[('female', 'ქალი'), ('male', 'კაცი')], validators=[DataRequired()])
     country = SelectField(choices=choices)
     submit = SubmitField("რეგისტრაცია")
 
+    # 👇 აი, ეს Custom Validator ჩაამატე ბოლოში:
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError('ეს მომხმარებლის სახელი უკვე დაკავებულია! გთხოვთ აირჩიოთ სხვა.')
+
 
 class LoginForm(FlaskForm):
-   
     username = StringField("შეიყვანე მომხმარებლის სახელი", validators=[DataRequired()])
     password = PasswordField("შეიყვანე პაროლი", validators=[DataRequired(), Length(min=8, max=20)])
     submit = SubmitField("შესვლა")
@@ -31,6 +38,12 @@ class MovieForm(FlaskForm):
     image_url = StringField('ფოტოს ლინკი (სურვილისამებრ)', validators=[Length(max=300)])
     year = IntegerField('გამოშვების წელი', validators=[DataRequired()])
     submit = SubmitField('ფილმის დამატება')
+
+
+class UpdateProfileForm(FlaskForm):
+    username = StringField('ახალი სახელი', validators=[DataRequired(), Length(min=2, max=50)])
+    avatar = FileField('პროფილის ფოტო', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'მხოლოდ სურათები!')])
+    submit = SubmitField('პროფილის განახლება')
 
 
 class UpdateProfileForm(FlaskForm):
